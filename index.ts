@@ -8,6 +8,9 @@ const log = (p) => {
 module.exports = function (fileInfo: FileInfo, api: API, options) {
   const root = api.jscodeshift(fileInfo.source);
   const j = api.jscodeshift;
+  if (fileInfo.source.includes("React.")) {
+    return root.toSource();
+  }
   root
     .find(j.ImportDeclaration, { source: { value: "react" } })
     .replaceWith((p) => {
